@@ -1,6 +1,8 @@
 #!/bin/bash
 
-: "${SPACETIME_ETL_DIR:?Please set \$SPACETIME_ETL_DIR to the location of spacetime-etl\'s output}"
+SPACETIME_ETL_DIR=`spacetime-config etl.outputDir`
+
+: "${SPACETIME_ETL_DIR:?Please install spacetime-config and set the etl.outputDir configuration option}"
 
 STEPS=( transform aggregate )
 TARGET_DIR=/tmp/spacetime-to-s3
