@@ -30,7 +30,15 @@ for dir in $TARGET_DIR/*; do
       spacetime-to-geojson $dir/$dataset.objects.ndjson > $dir/$dataset.geojson
 
       # Create sample GeoJSON with at most 100 objects
-      gshuf -n 100 $dir/$dataset.objects.ndjson | spacetime-to-geojson > $dir/$dataset.sample.geojson
+      exists() { type -t "$1" > /dev/null 2>&1; }
+
+      if exists gshuf; then
+        SHUF=gshuf
+      else
+        SHUF=shuf
+      fi
+
+      $SHUF -n 100 $dir/$dataset.objects.ndjson | spacetime-to-geojson > $dir/$dataset.sample.geojson
     fi
 
     # Create ZIP file with all dataset files
