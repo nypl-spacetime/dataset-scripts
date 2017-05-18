@@ -50,6 +50,5 @@ fi
 cd $TARGET_DIR
 zip -r $DATASET.zip ./
 
-aws s3 sync $TARGET_DIR s3://spacetime-nypl-org/datasets/$DATASET --exclude "*" \
-  --include "*.json" --include "*.ndjson" --include "*.zip" --include "*.geojson" \
+aws s3 sync $TARGET_DIR s3://spacetime-nypl-org/datasets/$DATASET \
   --delete --profile spacetime
