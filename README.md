@@ -1,8 +1,10 @@
 # Scripts for NYC Space/Time Directory
 
-## Publish dataset to S3
+## Publish NYC Space/Time Directory data to S3
 
-[`to-s3.sh`](to-s3.sh) uploads a single NYC Space/Time Directory datasetto S3. The script also creates a GeoJSON file from the NDJSON objects file, and zips the dataset.
+[`dataset-to-s3.sh`](dataset-to-s3.sh) uploads a single NYC Space/Time Directory dataset to S3. The script also creates a GeoJSON file from the NDJSON objects file, and zips the dataset.
+
+[`all-etl-data-to-s3.sh`](all-etl-data-to-s3) copies _all_ output (final datasets and intermediate steps) of NYC Space/Time Directory's [ETL tool](https://github.com/nypl-spacetime/spacetime-etl) to S3.
 
 ## Prerequisites
 
@@ -21,8 +23,12 @@ echo aws_secret_access_key = AWS_SECRET_ACCESS_KEY
 
 To publish a single dataset to S3, run:
 
-    ./to-s3 DATASET.STEP
+    ./dataset-to-s3 DATASET.STEP
 
 For example:
 
-    ./to-s3 mapwarper.transfor
+    ./dataset-to-s3 mapwarper.transform
+
+To sync _all_ output of NYC Space/Time Directory's [ETL tool](https://github.com/nypl-spacetime/spacetime-etl) to S3, run:
+
+    ./all-etl-data-to-s3
