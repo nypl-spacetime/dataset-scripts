@@ -29,6 +29,9 @@ mkdir -p $TARGET_DIR
 # Copy all dataset subdirectories from SOURCE_DIR to TARGET_DIR
 cp -p $SOURCE_DIR/* $TARGET_DIR
 
+# We don't need etl-results.json - all important data is present in datapackage.json
+rm $TARGET_DIR/etl-results.json
+
 if [ -f $TARGET_DIR/$DATASET.objects.ndjson ]
 then
   # Convert NDJSON to GeoJSON using spacetime-cli
