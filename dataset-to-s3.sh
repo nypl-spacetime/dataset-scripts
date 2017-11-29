@@ -32,6 +32,9 @@ cp -p $SOURCE_DIR/* $TARGET_DIR
 # We don't need etl-results.json - all important data is present in datapackage.json
 rm $TARGET_DIR/etl-results.json
 
+# We also don't need the original dataset descriptor, all info is present in datapackage.json as well
+rm $TARGET_DIR/$DATASET.dataset.json
+
 if [ -f $TARGET_DIR/$DATASET.objects.ndjson ]
 then
   # Convert NDJSON to GeoJSON using spacetime-cli
