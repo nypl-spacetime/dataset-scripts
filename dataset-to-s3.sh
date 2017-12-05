@@ -29,16 +29,19 @@ mkdir -p $TARGET_DIR
 # Copy all dataset subdirectories from SOURCE_DIR to TARGET_DIR
 cp -p $SOURCE_DIR/* $TARGET_DIR
 
-# We don't need etl-results.json - all important data is present in datapackage.json
-rm $TARGET_DIR/etl-results.json
-
-# We also don't need the original dataset descriptor, all info is present in datapackage.json as well
-rm $TARGET_DIR/$DATASET.dataset.json
-
 if [ -f $TARGET_DIR/$DATASET.objects.ndjson ]
 then
   # Convert NDJSON to GeoJSON using spacetime-cli
   spacetime-to-geojson $TARGET_DIR/$DATASET.objects.ndjson > $TARGET_DIR/$DATASET.geojson
+
+  # Read JSON Paths used for flattening Object data, using empty array [] as default
+  JSON_PATHS="$(cat $SOURCE_DIR/$DATASET.dataset.json | jq -c  '.flattenPaths // ["$.data"]')"
+
+  # Convert Object NDJSON to GeoJSON, with flattened Object data
+  spacetime-to-geojson -f $JSON_PATHS $TARGET_DIR/$DATASET.objects.ndjson > $TARGET_DIR/$DATASET.flattened.geojson
+
+  # Convert Object NDJSON to CSV, with flattened Object data
+  spacetime-to-csv -f $JSON_PATHS $TARGET_DIR/$DATASET.objects.ndjson > $TARGET_DIR/$DATASET.csv
 
   # Create sample GeoJSON with at most 100 objects
   exists() { type -t "$1" > /dev/null 2>&1; }
@@ -50,6 +53,12 @@ then
   fi
 
   $SHUF -n 100 $TARGET_DIR/$DATASET.objects.ndjson | spacetime-to-geojson > $TARGET_DIR/$DATASET.sample.geojson
+
+  # We don't need etl-results.json - all important data is present in datapackage.json
+  rm $TARGET_DIR/etl-results.json
+
+  # We also don't need the original dataset descriptor, all info is present in datapackage.json as well
+  rm $TARGET_DIR/$DATASET.dataset.json
 fi
 
 # Create ZIP file with all dataset files

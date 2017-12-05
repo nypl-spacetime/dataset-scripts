@@ -10,8 +10,9 @@
 
 1. First, install [spacetime-config](https://github.com/nypl-spacetime/spacetime-config) and set the `etl.outputDir` configuration option. See [spacetime-etl](https://github.com/nypl-spacetime/spacetime-etl) for more information.
 2. Install [spacetime-cli](https://github.com/nypl-spacetime/spacetime-cli)
-3. Install [aws-cli](https://github.com/aws/aws-cli)
-4. Add AWS credentials to [`~/.aws/credentials`](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-config-files), using the `spacetime` profile:
+3. Install [jq](https://stedolan.github.io/jq/)
+4. Install [aws-cli](https://github.com/aws/aws-cli)
+5. Add AWS credentials to [`~/.aws/credentials`](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-config-files), using the `spacetime` profile:
 
 ```
 [spacetime]
