@@ -1,7 +1,6 @@
 #!/bin/bash
 
 ETL_OUTPUT_DIR=`spacetime-config etl.outputDir`
-
 : "${ETL_OUTPUT_DIR:?Please install spacetime-config and set the etl.outputDir configuration option}"
 
 re="(.*)\.(.*)"
@@ -20,7 +19,7 @@ if ! [[ -d "$SOURCE_DIR" && -x "$SOURCE_DIR" ]]; then
   exit
 fi
 
-TARGET_DIR=/tmp/spacetime-to-s3/$DATASET
+TARGET_DIR=$ETL_OUTPUT_DIR/.spacetime-to-s3/$DATASET
 
 # Empty TARGET_DIR
 rm -rf $TARGET_DIR
@@ -67,3 +66,6 @@ zip -r $DATASET.zip ./
 
 aws s3 sync $TARGET_DIR s3://spacetime-nypl-org/datasets/$DATASET \
   --delete --profile spacetime
+
+rm -rf $ETL_OUTPUT_DIR/.spacetime-to-s3/$DATASET
+rm -rf $ETL_OUTPUT_DIR/.spacetime-to-s3
